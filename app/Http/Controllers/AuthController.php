@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Http\Requests\LoginUserRequest;
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -48,11 +49,12 @@ class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function register(StoreUserRequest $request)
+    public function register(RegisterUserRequest $request)
     {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role ?? UserRole::User,
             'password' => Hash::make($request->password),
         ]);
 
