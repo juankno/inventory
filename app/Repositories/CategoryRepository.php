@@ -13,30 +13,33 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function all(array $filters = [])
     {
-        //
+        return $this->model->paginate($filters['per_page'] ?? 15);
     }
 
 
     public function find(int $id)
     {
-        //
+        return $this->model->findOrFail($id);
     }
 
 
     public function create(array $data)
     {
-        //
+        return $this->model->create($data);
     }
 
 
     public function update(int $id, array $data)
     {
-        //
+        $category = $this->find($id);
+        $category->update($data);
+        return $category;
     }
 
 
     public function delete(int $id)
     {
-        //
+        $category = $this->find($id);
+        return $category->delete();
     }
 }
