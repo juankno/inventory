@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function __construct(protected UserRepositoryInterface $userRepository) {}
+
+
     /**
      * List all users.
      *

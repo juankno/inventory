@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Repositories\Contracts\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
+
+    public function __construct(protected CategoryRepositoryInterface $categoryRepository) {}
+
+
     /**
      * Display a listing of the resource.
      */

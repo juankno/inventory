@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 
 class ProductController extends Controller
 {
+
+    public function __construct(protected ProductRepositoryInterface $productRepository) {}
+
+
     /**
      * Display a listing of the resource.
      */
