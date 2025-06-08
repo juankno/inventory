@@ -86,8 +86,8 @@ return [
     */
 
     'middleware' => [
-        'web',
-        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+        // 'web',
+        // \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
     ],
 
     /*
