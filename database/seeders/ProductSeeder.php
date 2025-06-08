@@ -12,8 +12,10 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Product::factory()
-            ->count(50)
-            ->create();
+        \App\Models\Product::factory()->count(50)->create([
+            'category_id' => function () {
+                return \App\Models\Category::inRandomOrder()->first()->id;
+            },
+        ]);
     }
 }
