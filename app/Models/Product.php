@@ -41,4 +41,38 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+
+    public function scopeApplyFilters($query, array $filters)
+    {
+        if (isset($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        if (isset($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (isset($filters['min_price'])) {
+            $query->where('price', '>=', $filters['min_price']);
+        }
+
+        if (isset($filters['max_price'])) {
+            $query->where('price', '<=', $filters['max_price']);
+        }
+
+        if (isset($filters['min_stock'])) {
+            $query->where('stock', '>=', $filters['min_stock']);
+        }
+
+        if (isset($filters['max_stock'])) {
+            $query->where('stock', '<=', $filters['max_stock']);
+        }
+
+        if (isset($filters['sort_by']) && isset($filters['sort_order'])) {
+            $query->orderBy($filters['sort_by'], $filters['sort_order']);
+        }
+
+        return $query;
+    }
 }

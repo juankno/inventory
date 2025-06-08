@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Filters\CategoryFilterRequest;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -24,11 +25,9 @@ class CategoryController extends Controller
      *
      * @response AnonymousResourceCollection<LengthAwarePaginator<CategoryResource>>
      */
-    public function index()
+    public function index(CategoryFilterRequest $request)
     {
-        $filters = request()->only(['per_page', 'sort', 'search']);
-
-        $categories = $this->categoryRepository->all($filters);
+        $categories = $this->categoryRepository->all($request->validated());
 
         return CategoryResource::collection($categories);
     }
@@ -62,9 +61,9 @@ class CategoryController extends Controller
      *
      * This method is used to update an existing category in the database.
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, int $categoryId)
     {
-        $category = $this->categoryRepository->update($category, $request->validated());
+        $category = $this->categoryRepository->update($categoryId, $request->validated());
 
         return new CategoryResource($category);
     }
@@ -75,9 +74,9 @@ class CategoryController extends Controller
      * This method is used to delete a category from the database.
      * It will return a 204 No Content response upon successful deletion.
      */
-    public function destroy(Category $category)
+    public function destroy(int $categoryId)
     {
-        $this->categoryRepository->delete($category);
+        $this->categoryRepository->delete($categoryId);
 
         return response()->noContent();
     }

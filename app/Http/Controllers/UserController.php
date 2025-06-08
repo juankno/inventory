@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Filters\UserFilterRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
@@ -25,11 +26,9 @@ class UserController extends Controller
      *
      * @response AnonymousResourceCollection<LengthAwarePaginator<UserResource>>
      */
-    public function index(Request $request)
+    public function index(UserFilterRequest $request)
     {
-        $filters = $request->only(['per_page', 'sort', 'search']);
-
-        $users = $this->userRepository->all($filters);
+        $users = $this->userRepository->all($request->validated());
 
         return UserResource::collection($users);
     }
@@ -54,9 +53,9 @@ class UserController extends Controller
      * This method is used to show a specific user by their ID.
      * It retrieves the user from the repository and returns it as a resource.
      */
-    public function show(int  $id)
+    public function show(int $userId)
     {
-        $user = $this->userRepository->find($id);
+        $user = $this->userRepository->find($userId);
 
         return new UserResource($user);
     }
@@ -67,9 +66,9 @@ class UserController extends Controller
      * This method is used to update an existing user in the system.
      * It typically involves validating the incoming request data and updating the user record in the database.
      */
-    public function update(UpdateUserRequest $request, int $id)
+    public function update(UpdateUserRequest $request, int $userId)
     {
-        $user = $this->userRepository->update($id, $request->validated());
+        $user = $this->userRepository->update($userId, $request->validated());
 
         return new UserResource($user);
     }
@@ -80,9 +79,9 @@ class UserController extends Controller
      * This method is used to delete a user from the system.
      * It typically involves removing the user record from the database.
      */
-    public function destroy(int $id)
+    public function destroy(int $userId)
     {
-        $this->userRepository->delete($id);
+        $this->userRepository->delete($userId);
 
         return response()->noContent();
     }

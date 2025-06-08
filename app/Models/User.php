@@ -50,4 +50,20 @@ class User extends Authenticatable
             'role' => UserRole::class,
         ];
     }
+
+
+    public function scopeApplyFilters($query, array $filters)
+    {
+        if (isset($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (isset($filters['email'])) {
+            $query->where('email', 'like', '%' . $filters['email'] . '%');
+        }
+
+        if (isset($filters['role'])) {
+            $query->where('role', $filters['role']);
+        }
+    }
 }

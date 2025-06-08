@@ -13,7 +13,9 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function all(array $filters = [])
     {
-        return $this->model->paginate($filters['per_page'] ?? 15);
+        return $this->model
+            ->applyFilters($filters)
+            ->paginate($filters['per_page'] ?? 15);
     }
 
 

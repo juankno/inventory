@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Http\Requests\Filters\ProductFilterRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Repositories\Contracts\ProductRepositoryInterface;
@@ -25,11 +25,9 @@ class ProductController extends Controller
      *
      * @response AnonymousResourceCollection<LengthAwarePaginator<ProductResource>>
      */
-    public function index()
+    public function index(ProductFilterRequest $request)
     {
-        $filters = request()->only(['per_page', 'sort', 'search']);
-
-        $products = $this->productRepository->all($filters);
+        $products = $this->productRepository->all($request->validated());
 
         return ProductResource::collection($products);
     }

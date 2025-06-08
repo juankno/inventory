@@ -12,7 +12,9 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function all(array $filters = [])
     {
-        return $this->model->with('category')->paginate($filters['per_page'] ?? 15);
+        return $this->model->with('category')
+            ->applyFilters($filters)
+            ->paginate($filters['per_page'] ?? 15);
     }
 
 

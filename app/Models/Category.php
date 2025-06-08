@@ -27,4 +27,16 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+
+    public function scopeApplyFilters($query, array $filters)
+    {
+        if (isset($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (isset($filters['description'])) {
+            $query->where('description', 'like', '%' . $filters['description'] . '%');
+        }
+    }
 }
