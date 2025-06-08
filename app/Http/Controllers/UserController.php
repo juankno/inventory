@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserController extends Controller
 {
@@ -18,41 +22,68 @@ class UserController extends Controller
      * This method is responsible for displaying a list of all users in the system.
      * It can be used to retrieve user data from the database and return it in a suitable format,
      * such as JSON or HTML.
+     *
+     * @response AnonymousResourceCollection<LengthAwarePaginator<UserResource>>
      */
     public function index(Request $request)
     {
-        //
+        $filters = $request->only(['per_page', 'sort', 'search']);
+
+        $users = $this->userRepository->all($filters);
+
+        return UserResource::collection($users);
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Create a new user.
+     *
+     * This method is responsible for storing a new user in the system.
+     * It typically involves validating the incoming request data, creating a new user record in the database.
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $user = $this->userRepository->create($request->validated());
+
+        return new UserResource($user);
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified user.
+     *
+     * This method is used to show a specific user by their ID.
+     * It retrieves the user from the repository and returns it as a resource.
      */
-    public function show(string $id)
+    public function show(int  $id)
     {
-        //
+        $user = $this->userRepository->find($id);
+
+        return new UserResource($user);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified user.
+     *
+     * This method is used to update an existing user in the system.
+     * It typically involves validating the incoming request data and updating the user record in the database.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, int $id)
     {
-        //
+        $user = $this->userRepository->update($id, $request->validated());
+
+        return new UserResource($user);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the specified user.
+     *
+     * This method is used to delete a user from the system.
+     * It typically involves removing the user record from the database.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $this->userRepository->delete($id);
+
+        return response()->noContent();
     }
 }
