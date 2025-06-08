@@ -26,7 +26,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepository->all();
+        $filters = request()->only(['per_page', 'sort', 'search']);
+
+        $categories = $this->categoryRepository->all($filters);
 
         return CategoryResource::collection($categories);
     }
