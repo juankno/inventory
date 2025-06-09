@@ -90,17 +90,27 @@ php artisan migrate --seed
 
 ## Uso
 
-1. Inicia el servidor de desarrollo:
+1.  Inicia el servidor de desarrollo:
 
     ```bash
     php artisan serve
     ```
 
-2. Accede a las siguientes herramientas:
+2.  Accede a las siguientes herramientas:
 
-    - **Documentación de la API:** [http://localhost:8000/docs/api#/](http://localhost:8000/docs/api#/)
-    - **Visor de Logs:** [http://localhost:8000/log-viewer](http://localhost:8000/log-viewer)
-    - **Logs locales:** Archivos en `storage/logs`
+    -   **Documentación de la API:** [http://localhost:8000/docs/api#/](http://localhost:8000/docs/api#/)
+    -   **Visor de Logs:** [http://localhost:8000/log-viewer](http://localhost:8000/log-viewer)
+    -   **Logs locales:** Archivos en `storage/logs`
+
+3.  Usa los siguientes usuarios de prueba para acceder al sistema:
+
+    -   **Usuario:** Test User  
+        **Email:** test@example.com  
+        **Contraseña:** password
+
+    -   **Usuario:** Admin User
+        **Email:** admin@example.com  
+         **Contraseña:** password
 
 ---
 
