@@ -42,7 +42,10 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = $this->userRepository->create($request->validated());
+        $data = $request->validated();
+        $data['password'] = bcrypt($data['password']);
+
+        $user = $this->userRepository->create($data);
 
         return new UserResource($user);
     }
@@ -68,7 +71,15 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, int $userId)
     {
-        $user = $this->userRepository->update($userId, $request->validated());
+        $data = $request->validated();
+
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $user = $this->userRepository->update($userId, $data);
 
         return new UserResource($user);
     }
