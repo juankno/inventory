@@ -21,6 +21,39 @@
 
 Inventory es una solución integral diseñada para gestionar un inventario básico de productos y sus categorías.
 
+### Estructura del Proyecto
+
+El proyecto sigue una arquitectura en capas bien definida:
+
+-   **Controllers (app/Http/Controllers)**: Manejan las peticiones HTTP y delegan la lógica de negocio a los repositorios.
+-   **Models (app/Models)**: Definen la estructura de datos y las relaciones entre entidades:
+    -   `User`: Gestión de usuarios y autenticación
+    -   `Category`: Categorías de productos
+    -   `Product`: Productos del inventario
+-   **Repositories (app/Repositories)**: Implementan el patrón Repository para abstraer la lógica de acceso a datos:
+    -   `CategoryRepository`: Operaciones CRUD para categorías
+    -   `ProductRepository`: Operaciones CRUD para productos
+    -   `UserRepository`: Gestión de usuarios
+-   **Factories (database/factories)**: Facilitan la creación de datos de prueba
+-   **Migrations (database/migrations)**: Definen la estructura de la base de datos
+
+### Sistema de Autenticación
+
+El sistema utiliza Laravel Sanctum para la autenticación, proporcionando:
+
+-   **Tokens de API**: Autenticación segura para la API mediante tokens
+-   **Control de Acceso**: Políticas y roles de usuario definidos en `UserRole` para gestionar permisos
+-   **Seguridad**: Protección contra CSRF y XSS
+
+La elección de Sanctum se justifica por:
+
+1. Simplicidad y ligereza para APIs
+2. Integración nativa con Laravel
+3. Soporte para SPA y aplicaciones móviles
+4. Gestión eficiente de tokens
+5. Capacidad de revocar tokens
+6. Los roles de usuario se definen de forma simple por la escala del proyecto
+
 ---
 
 ## Documentación
